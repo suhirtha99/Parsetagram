@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="254dp"
         android:background="#14ffffff"
-        android:onClick="logIn"
+        android:onClick="login"
         android:text=" Log in"
         android:textColor="@android:color/white"
         android:visibility="visible" />
