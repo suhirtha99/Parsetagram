@@ -6,18 +6,25 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.suhirtha.parsetagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    private EditText mCaption;
+    private Button mCreate;
+    private Button mRefresh;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,6 +50,15 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mCaption = findViewById(R.id.etCaption); //TODO
+        mCreate = findViewById(R.id.btnCreate);
+        mRefresh = findViewById(R.id.btnRefresh);
+
+        loadTopPosts();
+    }
+
+    private void loadTopPosts() {
 
         final Post.Query postQuery = new Post.Query();
         postQuery.getTop().withUser();
@@ -78,6 +94,10 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void createPost(String description, ParseFile imageFile, ParseUser user) {
+
     }
 
 }
