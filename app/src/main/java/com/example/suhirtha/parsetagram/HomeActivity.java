@@ -2,6 +2,7 @@ package com.example.suhirtha.parsetagram;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,6 +15,8 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -41,6 +44,13 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
+    final FragmentManager fragmentManager = getSupportFragmentManager();
+
+    // define your fragments here
+    final Fragment fragment1 = new Home();
+    final Fragment fragment2 = new CreatePost();
+    final Fragment fragment3 = new Profile();
+
     private TextView mTextMessage;
     private EditText mCaption;
     private Button mCreate;
@@ -56,13 +66,15 @@ public class HomeActivity extends AppCompatActivity {
     File photoFile;
     public String photoFileName = "photo.jpg";
 
-    private static final int CAMERA_REQUEST = 1888;
+    private static final int CAMERA_REQUEST = 1;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     //private static final String imagePath = "/storage/emulated/0/DCIM/Camera/IMG_20180710_153941.jpg";
+
+    //BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -72,6 +84,8 @@ public class HomeActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mTextMessage.setText(R.string.title_home);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    //fragmentTransaction.replace(R.id.flContainer, fragment1).commit();
                     return true;
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
@@ -92,6 +106,7 @@ public class HomeActivity extends AppCompatActivity {
         mCaption = findViewById(R.id.etCaption);
         mCreate = findViewById(R.id.btnCreate);
         mRefresh = findViewById(R.id.btnRefresh);
+        mCapture = findViewById(R.id.ivCapture);
 
         /*
         mCreate.setOnClickListener(new View.OnClickListener() {
@@ -261,6 +276,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         }*/
 
+        System.out.println("req code: " + requestCode);
+        System.out.println("CAM REQ: "+ CAMERA_REQUEST);
+
+        System.out.println("Result code: " +resultCode);
+
+        System.out.println("result ok: " + Activity.RESULT_OK);
+
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             // Bitmap photo = (Bitmap) data.getExtras().get("data");
 
@@ -328,6 +350,7 @@ public class HomeActivity extends AppCompatActivity {
         final ParseFile parseFile = new ParseFile(file);
 
         createPost(caption, parseFile, user);
+
     }
 
     // Returns the File for a photo stored on disk given the fileName
