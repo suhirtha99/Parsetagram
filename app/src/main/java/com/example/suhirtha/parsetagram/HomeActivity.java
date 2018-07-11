@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -44,10 +46,15 @@ public class HomeActivity extends AppCompatActivity {
     private Button mCreate;
     private Button mRefresh;
 
+    boolean posted;
 
     private ImageView mCapture;
 
     private Uri file;
+    private Uri imageUri;
+
+    File photoFile;
+    public String photoFileName = "photo.jpg";
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
@@ -85,7 +92,6 @@ public class HomeActivity extends AppCompatActivity {
         mCaption = findViewById(R.id.etCaption);
         mCreate = findViewById(R.id.btnCreate);
         mRefresh = findViewById(R.id.btnRefresh);
-        mCapture = findViewById(R.id.ivCapture);
 
         /*
         mCreate.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +104,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 final File file = new File(imagePath);
                 final ParseFile parseFile = new ParseFile(file);
-
                 createPost(caption, parseFile, user);
             }
         });
@@ -162,7 +167,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void createPost(String caption, ParseFile imageFile, ParseUser user) {
+    public void createPost(String caption, ParseFile imageFile, ParseUser user) {
         final Post newPost = new Post();
         newPost.setCaption(caption);
         newPost.setImage(imageFile);
@@ -196,9 +201,6 @@ public class HomeActivity extends AppCompatActivity {
      * https://androidkennel.org/android-camera-access-tutorial/
      */
 
-    /**
-     * @param view
-     */
     public void takePicture(View view) {
 
         /*
@@ -220,8 +222,21 @@ public class HomeActivity extends AppCompatActivity {
                     MY_CAMERA_PERMISSION_CODE);
         } else {
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+            photoFile = getPhotoFileUri(photoFileName);
+
+            Uri fileProvider = FileProvider.getUriForFile(this, "com.example.suhirtha.parsetagram", photoFile); //TODO
+
+            //imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"fname_" +
+                    //String.valueOf(System.currentTimeMillis()) + ".jpg"));
+
+            cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, fileProvider);
+
+            startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
+            //Log.d("HomeActivity", imageUri.toString());
         }
+
+
     }
 
     /**
@@ -232,6 +247,7 @@ public class HomeActivity extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
 
         /*
         if (requestCode == 100) {
@@ -246,8 +262,25 @@ public class HomeActivity extends AppCompatActivity {
         }*/
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            mCapture.setImageBitmap(photo);
+            // Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+
+            //use imageUri here to access the image
+//
+//            Bundle extras = data.getExtras();
+//
+//            Log.e("URI",imageUri.toString());
+//
+//            Bitmap bmp = (Bitmap) extras.get("data");
+
+            // here you will get the image as bitmap
+
+            Bitmap bmp = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+            mCapture.setImageBitmap(bmp);
+
+
+        } else {
+            Toast.makeText(this, "Oops. Something went wrong.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -270,10 +303,6 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * StackOverflow code - https://stackoverflow.com/questions/5991319/capture-image-from-camera-and-display-in-activity
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -291,4 +320,30 @@ public class HomeActivity extends AppCompatActivity {
         }
 
     }
+
+    public void post(View view) {
+        final String caption = mCaption.getText().toString();
+        final ParseUser user = ParseUser.getCurrentUser();
+        final File file = getPhotoFileUri(photoFileName);
+        final ParseFile parseFile = new ParseFile(file);
+
+        createPost(caption, parseFile, user);
+    }
+
+    // Returns the File for a photo stored on disk given the fileName
+    public File getPhotoFileUri(String fileName) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "HomeActivity"); //TODO - getContext for fragment
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d("HomeActivity", "failed to create directory");
+        }
+
+        // Return the file target for the photo based on filename
+        return new File(mediaStorageDir.getPath() + File.separator + fileName);
+    }
+
 }
