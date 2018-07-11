@@ -1,6 +1,10 @@
 package com.example.suhirtha.parsetagram;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.suhirtha.parsetagram.models.Post;
 import com.parse.FindCallback;
@@ -39,14 +44,18 @@ public class HomeActivity extends AppCompatActivity {
     private Button mCreate;
     private Button mRefresh;
 
+
     private ImageView mCapture;
 
     private Uri file;
 
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private static final String imagePath = "/storage/emulated/0/DCIM/Camera/IMG_20180710_153941.jpg";
+    //private static final String imagePath = "/storage/emulated/0/DCIM/Camera/IMG_20180710_153941.jpg";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -94,6 +103,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         */
+
         mRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,11 +111,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        if(Build.VERSION.SDK_INT>=24){
-            try{
+        if (Build.VERSION.SDK_INT >= 24) {
+            try {
                 Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
                 m.invoke(null);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -118,7 +128,7 @@ public class HomeActivity extends AppCompatActivity {
         final Post.Query postQuery = new Post.Query();
         postQuery.getTop().withUser();
 
-        postQuery.findInBackground(new FindCallback <Post>() {
+        postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> objects, ParseException e) {
                 if (e == null) {
@@ -132,6 +142,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -186,39 +197,57 @@ public class HomeActivity extends AppCompatActivity {
      */
 
     /**
-     *
      * @param view
      */
     public void takePicture(View view) {
+
+        /*
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         file = Uri.fromFile(getOutputMediaFile()); //TODO
+
+
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, file);
 
         // we call startActivityForResult instead of just startActivity because we need a result
         // to be returned
         startActivityForResult(takePictureIntent, 100); //100 is some integer constant
 
-        //creating Parse file
-        final ParseFile parseFile = new ParseFile()
+        */
+
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    MY_CAMERA_PERMISSION_CODE);
+        } else {
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        }
     }
 
     /**
      * Now that we've sent the intent to the system, we have to handle the result.
+     *
      * @param requestCode - hard-coded integer constant? TODO - what are all these random integers
-     * @param resultCode - another random integer constant?
+     * @param resultCode  - another random integer constant?
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        /*
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-                mCapture.setImageURI(file);
+                //mCapture.setImageURI(file);
 
-                /*
+                -- Android tutorial?
                 Bitmap takenImage = BitmapFactory.decodeFile(file.getPath());
-                mCapture.setImag;
-                 **/
+                mCapture.setImage;
 
             }
+        }*/
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            mCapture.setImageBitmap(photo);
         }
     }
 
@@ -236,8 +265,30 @@ public class HomeActivity extends AppCompatActivity {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         return new File(mediaStorageDir.getPath() + File.separator +
-                "IMG_"+ timeStamp + ".jpg");
+                "IMG_" + timeStamp + ".jpg");
     }
 
+    /**
+     * StackOverflow code - https://stackoverflow.com/questions/5991319/capture-image-from-camera-and-display-in-activity
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent cameraIntent = new
+                        Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            } else {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
 
+        }
+
+    }
 }

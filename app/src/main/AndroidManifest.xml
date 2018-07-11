@@ -20,6 +20,22 @@
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
+
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- TODO - necessary? do we need to write back to phone's storage? -->
 
 </manifest>
