@@ -3,13 +3,126 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="5dp"
     android:background="#ffffff"
     tools:context=".Profile">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="#fff"
+        android:theme="@style/Theme.AppCompat.DayNight"
+        tools:context=".Profile">
+
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/profile_iv"
+            android:layout_marginEnd="40dp"
+            android:paddingBottom="10dp"
+            android:text="Log Out" />
+
+        <ImageView
+            android:id="@+id/profile_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/instagram_user_outline_24" />
+
+        <TextView
+            android:id="@+id/posts_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/profile_iv"
+            android:layout_marginStart="131dp"
+            android:text="TextView"
+            android:textColor="@android:color/holo_purple"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/posts_text"
+            android:layout_width="85dp"
+            android:layout_height="33dp"
+            android:layout_alignStart="@+id/posts_tv"
+            android:layout_below="@+id/posts_tv"
+            android:text="posts"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/bio_tv"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/profile_iv"
+            android:layout_marginTop="137dp"
+            android:text="TextView"
+            android:textColor="@android:color/background_dark"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/username_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/profile_iv"
+            android:layout_marginTop="104dp"
+            android:text="TextView"
+            android:textColor="@android:color/background_dark"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/addBio_et"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/profile_iv"
+            android:layout_below="@+id/username_tv"
+            android:ems="10"
+            android:hint="Add a bio"
+            android:inputType="textPersonName"
+            android:textColor="@android:color/background_dark"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/addBio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignStart="@+id/btnLogout"
+            android:layout_alignTop="@+id/editBio_btn"
+            android:text="Add Bio"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/editBio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="177dp"
+            android:text="Edit Bio"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/camera_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_alignBottom="@+id/profile_iv"
+            android:layout_toEndOf="@+id/profile_iv"
+            android:clickable="true"
+            android:src="@android:drawable/ic_menu_camera" />
+
+
+    </RelativeLayout>
+
 
 </FrameLayout>
