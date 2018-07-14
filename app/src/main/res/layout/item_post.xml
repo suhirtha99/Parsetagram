@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:layout_marginTop="10dp"
     android:background="#ffff">
@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/ivPostImage"
         android:layout_width="match_parent"
-        android:layout_height="205dp"
+        android:layout_height="326dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
@@ -40,7 +40,7 @@
         android:id="@+id/tvTopUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/profile_iv"
+        android:layout_alignTop="@+id/ivProfilePic"
         android:layout_toEndOf="@+id/comment_btn"
         android:paddingRight="5dp"
         android:text="TextView"
@@ -108,7 +108,7 @@
         app:srcCompat="@drawable/ufi_new_direct" />
 
     <ImageView
-        android:id="@+id/profile_iv"
+        android:id="@+id/ivProfilePic"
         android:layout_width="49dp"
         android:layout_height="55dp"
         android:layout_alignParentStart="true"

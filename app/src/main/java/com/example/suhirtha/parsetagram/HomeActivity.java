@@ -13,19 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.suhirtha.parsetagram.models.Post;
-
 import java.io.File;
 
 public class HomeActivity extends AppCompatActivity {
 
-
-    //-----------------------------------------------------------------------------
-
     final FragmentManager fragmentManager = getSupportFragmentManager();
 
-    // define your fragments here
+    // define fragments here
+    // TODO - should these have the prefix 'm'?
     final Fragment homeFragment = new Home();
     final Fragment postFragment = new CreatePost();
     final Fragment profileFragment = new Profile();
@@ -106,43 +102,7 @@ public class HomeActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        
 
-
-
-        /*
-        mCreate.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View v) {
-                final String caption = mCaption.getText().toString();
-                final ParseUser user = ParseUser.getCurrentUser();
-
-                final File file = new File(imagePath);
-                final ParseFile parseFile = new ParseFile(file);
-                createPost(caption, parseFile, user);
-            }
-        });
-        */
-
-        /*
-        mRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadTopPosts();
-            }
-        });
-
-        if (Build.VERSION.SDK_INT >= 24) {
-            try {
-                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
-                m.invoke(null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        */
 
 
     }

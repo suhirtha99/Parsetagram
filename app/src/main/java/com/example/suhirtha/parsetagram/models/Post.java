@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
+
     private static final String KEY_CAPTION = "caption";
     private static final String KEY_IMAGE = "image";
     private static final String KEY_USER = "user";

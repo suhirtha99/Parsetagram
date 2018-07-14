@@ -115,7 +115,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>
             ibComment = (ImageView) itemView.findViewById(R.id.comment_btn);
             ibShare = (ImageView) itemView.findViewById(R.id.share_btn);
             //etComment = (EditText) itemView.findViewById(R.id.comment_et); - TODO// add comments
-            ivUserImage = (ImageView) itemView.findViewById(R.id.profile_iv);
+            ivUserImage = (ImageView) itemView.findViewById(R.id.ivProfilePic);
 
             ibComment.setOnClickListener(new View.OnClickListener() {
                 @Override

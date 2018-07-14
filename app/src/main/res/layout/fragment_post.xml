@@ -5,24 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffffff"
+    android:background="@drawable/app_background"
     tools:context=".CreatePost">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:background="?android:attr/windowBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/navigation" />
 
         <Button
             android:id="@+id/btnCreate"
@@ -30,37 +18,43 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="139dp"
+            android:layout_marginBottom="211dp"
+            android:background="#14ffffff"
             android:clickable="true"
-            android:text="Create" />
+            android:text="Create"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/btnRefresh"
             android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/btnCreate"
-            android:layout_marginBottom="76dp"
-            android:text="Refresh" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="154dp"
+            android:background="#14ffffff"
+            android:text="Refresh"
+            android:textColor="@android:color/white" />
 
         <EditText
             android:id="@+id/etCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
+            android:layout_marginBottom="65dp"
             android:ems="10"
             android:hint="Caption your image..."
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:textColor="@android:color/white" />
 
         <ImageView
             android:id="@+id/ivCapture"
             android:layout_width="match_parent"
-            android:layout_height="283dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            android:layout_height="310dp"
+            android:layout_above="@+id/btnPost"
+            android:layout_alignParentStart="true"
+            app:srcCompat="@drawable/camera" />
 
         <Button
             android:id="@+id/btnPost"
@@ -68,9 +62,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="199dp"
+            android:layout_marginBottom="267dp"
+            android:background="#14ffffff"
             android:clickable="true"
-            android:text="Post" />
+            android:text="Post"
+            android:textColor="@android:color/white" />
 
     </RelativeLayout>
 
